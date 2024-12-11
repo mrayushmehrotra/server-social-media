@@ -24,6 +24,7 @@ app.use(cors());
 dotenv.config();
 
 app.get("/", (req,res)=>{
+
     res.json({success:true, message: "Server is working fine"})
 })
 
