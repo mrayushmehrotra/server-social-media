@@ -7,11 +7,11 @@ import AuthRoute from './Routes/AuthRoute.js';
 import UserRoute from './Routes/UserRoute.js'
 import PostRoute from './Routes/PostRoute.js'
 import UploadRoute from './Routes/UploadRoute.js'
-
+import cors from "cors"
 //Routes
 
 const app = express();
-
+app.use(cors())
 //to serve imgs for public
 app.use(express.static('public'))
 app.use('/images', express.static("images"))
