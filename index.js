@@ -14,14 +14,8 @@ dotenv.config();
 
 const app = express();
 
-// CORS Configuration
-const corsOptions = {
-  origin: ["https://client-social-media-iota.vercel.app"], // Update with your frontend URLs
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-  credentials: true, // Allow cookies if needed
-};
 
-app.use(cors(corsOptions));
+app.use(cors("*"));
 
 // To serve images for public
 app.use(express.static('public'));
