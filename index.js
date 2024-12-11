@@ -1,44 +1,49 @@
-import  express  from "express";
-import  bodyParser  from "body-parser";
+import express from "express";
+import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cors from 'cors'
+import cors from "cors";
+
+// Routes
 import AuthRoute from './Routes/AuthRoute.js';
-import UserRoute from './Routes/UserRoute.js'
-import PostRoute from './Routes/PostRoute.js'
-import UploadRoute from './Routes/UploadRoute.js'
-import cors from "cors"
-//Routes
+import UserRoute from './Routes/UserRoute.js';
+import PostRoute from './Routes/PostRoute.js';
+import UploadRoute from './Routes/UploadRoute.js';
 
-const app = express();
-app.use(cors())
-//to serve imgs for public
-app.use(express.static('public'))
-app.use('/images', express.static("images"))
- 
-
-//Middleware
-app.use(bodyParser.json({limit: '30mb', extended: true}));
-app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
-app.use(cors());
 dotenv.config();
 
-app.get("/", (req,res)=>{
+const app = express();
 
-    res.json({success:true, message: "Server is working fine"})
-})
+// CORS Configuration
+const corsOptions = {
+  origin: ["https://client-social-media-iota.vercel.app"], // Update with your frontend URLs
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+  credentials: true, // Allow cookies if needed
+};
 
+app.use(cors(corsOptions));
+
+// To serve images for public
+app.use(express.static('public'));
+app.use('/images', express.static("images"));
+
+// Middleware
+app.use(bodyParser.json({ limit: '30mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
+
+// Test Route
+app.get("/", (req, res) => {
+  res.json({ success: true, message: "Server is working fine" });
+});
+
+// MongoDB Connection
 mongoose
-.connect(
-    process.env.MONGO_DB,
-    {useNewUrlParser: true, useUnifiedTopology: true}
-    )
-    .then(()=> app.listen(process.env.PORT, () => console.log
-(`Listening at ${process.env.PORT}`)))
-.catch((error)=> console.log(error));
+  .connect(process.env.MONGO_DB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => app.listen(process.env.PORT, () => console.log(`Listening at ${process.env.PORT}`)))
+  .catch((error) => console.log(error));
 
-//usage of routes
-app.use('/auth' , AuthRoute)
-app.use('/user' , UserRoute)
-app.use('/post' , PostRoute)
-app.use('/upload',UploadRoute)
+// Route Usage
+app.use('/auth', AuthRoute);
+app.use('/user', UserRoute);
+app.use('/post', PostRoute);
+app.use('/upload', UploadRoute);
