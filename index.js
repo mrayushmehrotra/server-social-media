@@ -23,6 +23,9 @@ app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 app.use(cors());
 dotenv.config();
 
+app.get("/", (req,res)=>{
+    res.json({success:true, message: "Server is working fine"})
+})
 
 mongoose
 .connect(
